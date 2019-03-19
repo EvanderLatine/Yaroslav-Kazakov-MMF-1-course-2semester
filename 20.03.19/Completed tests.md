@@ -1,6 +1,6 @@
 # Yaroslav-Kazakov-MMF-1-course-2semester
 14.03.2019. [Matrix.LW2](https://github.com/AnzhelikaKravchuk/2018-2019.MMF.BSU/blob/master/1%20course/2%20semester/06.03.2019/%D0%9B%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%202.%202018.pdf).
-In new task matrices aren't square. Each row has its own lenght.
+In new task matrices aren't square. Each row has its own lenght
 ### Tests
 
 |Test №|Coloumns dimension|Rows dimension|Accuracy|Absolute difference|
