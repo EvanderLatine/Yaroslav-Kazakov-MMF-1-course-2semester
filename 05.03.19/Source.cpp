@@ -18,7 +18,7 @@ int main()
 	int newDimension = 0;
 	int &newDim = newDimension;
 	int *array = new int[dimension];
-	array = initialisation(dimension, &userInput);
+	array = initialisation(dimension, userInput);
 	findNewDimension(dimension, newDimension, array);
 	printArr(dimension, array);
 	printArr(newDimension, select(dimension, newDimension, array));
