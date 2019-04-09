@@ -6,18 +6,18 @@ using namespace std;
 char *const keyEncode(char *const, const int, char*(key)(char *const));
 char* encryptionMethod(char*);
 void toLowerCase(char*);
-void consoleString(char *const);
-void consoleResult(char *const, const int);
 
 int main()
 {
 	const int stringLength = 46;
-	const int wordLength = 2;
+	const int wordLength = 3;
 	char *const string = new char[stringLength] { "In a hole in the ground there lived a hobbit." };
 
-	consoleResult(string, wordLength);
+	cout << string << endl;
+	cout << "The length of changing word: " << wordLength << endl;
+	cout << keyEncode(string, wordLength, encryptionMethod) << endl;
 	
-	return 0;
+		return 0;
 }
 
 char *const keyEncode(char *const string, const int wordLength, char*(key)(char *const))
@@ -30,32 +30,31 @@ char *const keyEncode(char *const string, const int wordLength, char*(key)(char 
 
 	for (unsigned int i = 0; i < stringLength; i++)
 	{
-		char *wordToCheck = new char[wordLength + 1] { '\0' };
-		char *symbolBeforeCheck = new char[2] { '\0' };
-		char *symbolAfterCheck = new char[wordLength + 2] { '\0' };
-		strncpy(wordToCheck, string + i, wordLength);
-		strncpy(symbolAfterCheck, string + i, wordLength + 1);
-		strncpy(symbolBeforeCheck, string + i - 1, 1);
+		int wordToCheckLength = strspn(string + i, symbols);
 
-		if (i == 0 || !strspn(symbolBeforeCheck, symbols) && strspn(symbolAfterCheck, symbols) == wordLength && strspn(wordToCheck, symbols) == wordLength)
+		if (wordToCheckLength == wordLength)
 		{
+			char *wordToCheck = new char[wordLength + 1]{ '\0' };
+			strncpy(wordToCheck, string + i, wordLength);
+
 			char *const encryptedWord = key(wordToCheck);
 
 			strcpy(encryptedString + j, encryptedWord);
 
 			j += strlen(encryptedWord);
 			i += wordLength - 1;
+
+			delete[] wordToCheck;
 		}
 		else
 		{
-			strncpy(encryptedString + j, string + i, 1);
+			for (unsigned int k = i; k < i + wordToCheckLength  + 1; k++)
+			{
+				strncpy(encryptedString + j++, string + k, 1);
+			}
 
-			j++;
+			i += wordToCheckLength;
 		}
-
-		delete[] wordToCheck;
-		delete[] symbolBeforeCheck;
-		delete[] symbolAfterCheck;
 	}
 
 	delete[] symbols;
@@ -66,33 +65,32 @@ char *const keyEncode(char *const string, const int wordLength, char*(key)(char 
 char* encryptionMethod(char *const word)
 {
 	unsigned int wordLength = strlen(word);
+	char *wordCopy = new char[wordLength + 1];
+	strcpy(wordCopy, word);
+
 	char *encryptedWord = new char[wordLength * 4 + 1]{ '\0' };
 
-	toLowerCase(word);
+	toLowerCase(wordCopy);
 
 	unsigned int j = 0;
 
 	for (unsigned int i = 0; i < wordLength; i++)
 	{
-		int numberEquivalent = 26 - (word[i] - ('a' - 1));
+		int numberEquivalent = 26 - (wordCopy[i] - ('a' - 1));
+
+		encryptedWord[j++] = '[';
 
 		if (numberEquivalent > 10)
 		{
-			encryptedWord[j] = '[';
-			encryptedWord[j + 1] = '0' + numberEquivalent / 10;
-			encryptedWord[j + 2] = '0' + numberEquivalent % 10;
-			encryptedWord[j + 3] = ']';
-
-			j += 4;
+			encryptedWord[j++] = '0' + numberEquivalent / 10;
+			encryptedWord[j++] = '0' + numberEquivalent % 10;
 		}
 		else
 		{
-			encryptedWord[j] = '[';
-			encryptedWord[j + 1] = '0' + numberEquivalent;
-			encryptedWord[j + 2] = ']';
-
-			j += 3;
+			encryptedWord[j++] = '0' + numberEquivalent;
 		}
+
+		encryptedWord[j++] = ']';
 	}
 
 	return encryptedWord;
@@ -109,23 +107,4 @@ void toLowerCase(char *word)
 			word[i] -= abs('A' - 'a');
 		}
 	}
-}
-
-void consoleString(char *const string)
-{
-	unsigned int stringLength = strlen(string);
-
-	for (unsigned int i = 0; i < stringLength; i++)
-	{
-		cout << string[i];
-	}
-
-	cout << endl;
-}
-
-void consoleResult(char *const string, const int wordLength)
-{
-	consoleString(string);
-	cout << "The length of changing word: " << wordLength << endl;
-	consoleString(keyEncode(string, wordLength, encryptionMethod));
 }
