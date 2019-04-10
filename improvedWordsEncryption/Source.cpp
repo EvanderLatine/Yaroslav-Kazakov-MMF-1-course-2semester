@@ -10,7 +10,7 @@ void toLowerCase(char*);
 int main()
 {
 	const int stringLength = 46;
-	const int wordLength = 3;
+	const int wordLength = 2;
 	char *const string = new char[stringLength] { "In a hole in the ground there lived a hobbit." };
 
 	cout << string << endl;
@@ -65,12 +65,14 @@ char *const keyEncode(char *const string, const int wordLength, char*(key)(char 
 char* encryptionMethod(char *const word)
 {
 	unsigned int wordLength = strlen(word);
-	char *wordCopy = new char[wordLength + 1];
+	char *wordCopy = new char[wordLength + 1]{ '\0' };
 	strcpy(wordCopy, word);
 
 	char *encryptedWord = new char[wordLength * 4 + 1]{ '\0' };
 
 	toLowerCase(wordCopy);
+
+	cout << wordCopy;
 
 	unsigned int j = 0;
 
@@ -104,7 +106,7 @@ void toLowerCase(char *word)
 	{
 		if (word[i] >= 'A' && 'Z' >= word[i])
 		{
-			word[i] -= abs('A' - 'a');
+			word[i] += abs('A' - 'a');
 		}
 	}
 }
