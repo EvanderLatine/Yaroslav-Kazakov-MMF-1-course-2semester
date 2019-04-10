@@ -72,8 +72,6 @@ char* encryptionMethod(char *const word)
 
 	toLowerCase(wordCopy);
 
-	cout << wordCopy;
-
 	unsigned int j = 0;
 
 	for (unsigned int i = 0; i < wordLength; i++)
