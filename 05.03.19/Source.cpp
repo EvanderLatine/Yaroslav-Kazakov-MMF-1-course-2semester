@@ -14,14 +14,18 @@ int partition(int[], int left, int right);
 
 int main()
 {
-	const int &dimension = inputDimension();
+	const char pass[31] = "C:\\Users\\ASUS\\Desktop\\Test.txt";
+	const int &dimension = dimensionFromFile(pass);
 	int newDimension = 0;
-	int &newDim = newDimension;
-	int *array = new int[dimension];
-	array = initialisation(dimension, userInput);
-	findNewDimension(dimension, newDimension, array);
+	int* array = new int[dimension]{ '\0' };
+
+	inputFromFile(pass, array);
+
 	printArr(dimension, array);
-	printArr(newDimension, select(dimension, newDimension, array));
+
+	findNewDimension(dimension, newDimension, array);
+
+	outputToFile(pass, select(dimension, newDimension, array), newDimension);
 
 	return 0;
 }
@@ -80,23 +84,6 @@ int* select(const int &dimension, int &newDimension, int *array)
 bool selection(int elem, int max)
 {
 	return !(elem % max);
-}
-
-int findMax(int *array, const int &dimension)
-{
-	int max = *array;
-
-	for (int i = 0; i < dimension; i++, array++)
-	{
-		if (max < *array)
-		{
-			max = *array;
-		}
-	}
-
-	array -= dimension;
-
-	return max;
 }
 
 void findNewDimension(const int &dimension, int &newDimension, int *array)
